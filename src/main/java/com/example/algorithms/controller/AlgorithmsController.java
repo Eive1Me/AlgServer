@@ -1,8 +1,8 @@
-package com.example.cinema.controller;
+package com.example.algorithms.controller;
 
-import com.example.cinema.entity.Algorithms;
-import com.example.cinema.repository.AlgorithmsRepository;
-import com.example.cinema.resource.AlgorithmsResource;
+import com.example.algorithms.entity.Algorithms;
+import com.example.algorithms.repository.AlgorithmsRepository;
+import com.example.algorithms.resource.AlgorithmsResource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;

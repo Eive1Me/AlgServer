@@ -1,20 +1,20 @@
-package com.example.cinema.resource;
+package com.example.algorithms.resource;
 
-import com.example.cinema.entity.Favourites;
+import com.example.algorithms.entity.Algorithms;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class FavouritesResource extends BaseResource {
+@AllArgsConstructor
+public class AlgorithmsResource extends BaseResource {
     private Integer id;
     private String name;
 
-    public FavouritesResource(Favourites director) {
-        this.id = director.getId();
-        this.name = director.getName();
+    public AlgorithmsResource(Algorithms actor) {
+        this.id = actor.getId();
+        this.name = actor.getName();
     }
 
     public Integer getId() {
@@ -33,8 +33,8 @@ public class FavouritesResource extends BaseResource {
         this.name = name;
     }
 
-    public Favourites toEntity(){
-        return new Favourites(
+    public Algorithms toEntity(){
+        return new Algorithms(
                 this.id,
                 this.name
         );

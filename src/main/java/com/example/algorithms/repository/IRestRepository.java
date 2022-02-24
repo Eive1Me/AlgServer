@@ -1,6 +1,6 @@
-package com.example.cinema.repository;
+package com.example.algorithms.repository;
 
-import com.example.cinema.entity.BaseEntity;
+import com.example.algorithms.entity.BaseEntity;
 
 public interface IRestRepository<T extends BaseEntity> {
     T[] select();

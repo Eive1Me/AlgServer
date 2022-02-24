@@ -1,6 +1,6 @@
-package com.example.cinema.repository;
+package com.example.algorithms.repository;
 
-import com.example.cinema.entity.Favourites;
+import com.example.algorithms.entity.Favourites;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;

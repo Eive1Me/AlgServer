@@ -1,6 +1,6 @@
-package com.example.cinema.repository;
+package com.example.algorithms.repository;
 
-import com.example.cinema.entity.Algorithms;
+import com.example.algorithms.entity.User;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
@@ -9,122 +9,122 @@ import java.sql.Types;
 import java.util.ArrayList;
 
 @Repository
-public class AlgorithmsRepository implements IRestRepository<Algorithms>{
+public class UserRepository implements IRestRepository<User> {
     protected final JdbcOperations jdbcOperations;
 
-    private static String selectQuery = "SELECT \"id_PK\", \"name\" " +
-            "FROM \"actor\" " +
+    private static String selectQuery = "SELECT \"id_PK\", \"genre\" " +
+            "FROM \"genre\" " +
             "ORDER BY \"id_PK\"";
 
-    private static String selectByIdQuery = "SELECT \"id_PK\", \"name\" " +
-            "FROM \"actor\" " +
+    private static String selectByIdQuery = "SELECT \"id_PK\", \"genre\" " +
+            "FROM \"genre\" " +
             "WHERE \"id_PK\" = ?";
 
-    private static String selectByName = "SELECT \"id_PK\", \"name\" " +
-            "FROM \"actor\" " +
-            "WHERE \"source_id\" = ?";
+    private static String selectByName = "SELECT \"id_PK\", \"genre\" " +
+            "FROM \"genre\" " +
+            "WHERE \"genre\" = ?";
 
-    private static String insertQuery = "INSERT INTO \"actor\"(\"name\") " +
-            "VALUES (?, ?, ?, ?) " +
-            "RETURNING \"id_PK\", \"name\"";
+    private static String insertQuery = "INSERT INTO \"genre\"(\"genre\") " +
+            "VALUES (?) " +
+            "RETURNING \"id_PK\", \"genre\"";
 
-    private static String updateQuery = "UPDATE \"actor\" " +
-            "SET \"name\" = ? " +
+    private static String updateQuery = "UPDATE \"genre\" " +
+            "SET \"genre\" = ? " +
             "WHERE \"id_PK\" = ? " +
-            "RETURNING \"id_PK\", \"name\"";
+            "RETURNING \"id_PK\", \"genre\"";
 
-    private static String deleteQuery = "DELETE FROM \"actor\" " +
+    private static String deleteQuery = "DELETE FROM \"genre\" " +
             "WHERE \"id_PK\" = ? " +
-            "RETURNING \"id_PK\", \"name\"";
+            "RETURNING \"id_PK\", \"genre\"";
 
-    public AlgorithmsRepository(JdbcOperations jdbcOperations) {
+    public UserRepository(JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
     }
 
     @Override
-    public Algorithms[] select() {
-        ArrayList<Algorithms> values = new ArrayList<Algorithms>();
+    public User[] select() {
+        ArrayList<User> values = new ArrayList<User>();
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(selectQuery);
         while (rowSet.next()) {
-            values.add(new Algorithms(
+            values.add(new User(
                     rowSet.getInt(1),
                     rowSet.getString(2)
             ));
         }
-        Algorithms[] result = new Algorithms[values.size()];
+        User[] result = new User[values.size()];
         result = values.toArray(result);
         return result;
     }
 
     @Override
-    public Algorithms select(Integer id) {
+    public User select(Integer id) {
         Object[] params = new Object[] { id };
         int[] types = new int[] { Types.INTEGER };
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(selectByIdQuery, params, types);
         if (!rowSet.next()) {
             return null;
         }
-        return new Algorithms(
+        return new User(
                 rowSet.getInt(1),
-                rowSet.getString(2)
+                    rowSet.getString(2)
         );
     }
 
-    public Algorithms[] selectByName(Integer name) {
-        ArrayList<Algorithms> values = new ArrayList<Algorithms>();
+    public User[] selectByName(Integer name) {
+        ArrayList<User> values = new ArrayList<User>();
         Object[] params = new Object[] { name };
         int[] types = new int[] { Types.INTEGER };
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(selectByName, params, types);
         while (rowSet.next()) {
-            values.add(new Algorithms(
+            values.add(new User(
                     rowSet.getInt(1),
                     rowSet.getString(2)
             ));
         }
-        Algorithms[] result = new Algorithms[values.size()];
+        User[] result = new User[values.size()];
         result = values.toArray(result);
         return result;
     }
 
     @Override
-    public Algorithms insert(Algorithms entity) {
-        Object[] params = new Object[] { entity.getName() };
+    public User insert(User entity) {
+        Object[] params = new Object[] { entity.getGenre() };
         int[] types = new int[] { Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.TIMESTAMP };
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(insertQuery, params, types);
         if (!rowSet.next()) {
             return null;
         }
-        return new Algorithms(
+        return new User(
                 rowSet.getInt(1),
-                rowSet.getString(2)
+                    rowSet.getString(2)
         );
     }
 
     @Override
-    public Algorithms update(Integer id, Algorithms entity) {
-        Object[] params = new Object[] { id, entity.getName() };
+    public User update(Integer id, User entity) {
+        Object[] params = new Object[] { id, entity.getGenre() };
         int[] types = new int[] { Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.TIMESTAMP, Types.INTEGER };
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(updateQuery, params, types);
         if (!rowSet.next()) {
             return null;
         }
-        return new Algorithms(
+        return new User(
                 rowSet.getInt(1),
-                rowSet.getString(2)
+                    rowSet.getString(2)
         );
     }
 
     @Override
-    public Algorithms delete(Integer id) {
+    public User delete(Integer id) {
         Object[] params = new Object[] { id };
         int[] types = new int[] {Types.INTEGER };
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(deleteQuery, params, types);
         if (!rowSet.next()) {
             return null;
         }
-        return new Algorithms(
+        return new User(
                 rowSet.getInt(1),
-                rowSet.getString(2)
+                    rowSet.getString(2)
         );
     }
 }

@@ -1,4 +1,4 @@
-package com.example.cinema.resource;
+package com.example.algorithms.resource;
 
 import java.io.Serializable;
 

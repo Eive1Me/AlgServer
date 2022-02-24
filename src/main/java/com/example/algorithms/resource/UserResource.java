@@ -1,6 +1,6 @@
-package com.example.cinema.resource;
+package com.example.algorithms.resource;
 
-import com.example.cinema.entity.User;
+import com.example.algorithms.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

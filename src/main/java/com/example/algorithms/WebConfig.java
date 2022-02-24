@@ -1,4 +1,4 @@
-package com.example.cinema;
+package com.example.algorithms;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

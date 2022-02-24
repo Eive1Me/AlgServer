@@ -1,8 +1,8 @@
-package com.example.cinema.controller;
+package com.example.algorithms.controller;
 
-import com.example.cinema.entity.Favourites;
-import com.example.cinema.repository.FavouritesRepository;
-import com.example.cinema.resource.FavouritesResource;
+import com.example.algorithms.entity.Favourites;
+import com.example.algorithms.repository.FavouritesRepository;
+import com.example.algorithms.resource.FavouritesResource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;

@@ -1,8 +1,8 @@
-package com.example.cinema.controller;
+package com.example.algorithms.controller;
 
-import com.example.cinema.entity.User;
-import com.example.cinema.repository.UserRepository;
-import com.example.cinema.resource.UserResource;
+import com.example.algorithms.entity.User;
+import com.example.algorithms.repository.UserRepository;
+import com.example.algorithms.resource.UserResource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
