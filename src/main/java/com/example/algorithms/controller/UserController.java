@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/genre")
+@RequestMapping(value = "/users")
 public class UserController {
     private final UserRepository genreRepository;
 

@@ -5,31 +5,33 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class FavouritesResource extends BaseResource {
-    private Integer id;
-    private String name;
+    private UUID id;
+    private UUID name;
 
     public FavouritesResource(Favourites director) {
         this.id = director.getId();
         this.name = director.getName();
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public String getName() {
+    public UUID getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(UUID name) {
         this.name = name;
     }
 

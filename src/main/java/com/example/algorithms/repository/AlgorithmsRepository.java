@@ -7,35 +7,36 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Repository
 public class AlgorithmsRepository implements IRestRepository<Algorithms>{
     protected final JdbcOperations jdbcOperations;
 
-    private static String selectQuery = "SELECT \"id_PK\", \"name\" " +
-            "FROM \"actor\" " +
-            "ORDER BY \"id_PK\"";
+    private static String selectQuery = "SELECT \"id(PK)\", \"name\", \"accuracy\", \"learning_time\", \"linear\", \"params\", \"notes\", \"how_works\", \"how_uses\" " +
+            "FROM \"Algorithms\" " +
+            "ORDER BY \"id(PK)\"";
 
-    private static String selectByIdQuery = "SELECT \"id_PK\", \"name\" " +
-            "FROM \"actor\" " +
-            "WHERE \"id_PK\" = ?";
+    private static String selectByIdQuery = "SELECT \"id(PK)\", \"name\", \"accuracy\", \"learning_time\", \"linear\", \"params\", \"notes\", \"how_works\", \"how_uses\"  " +
+            "FROM \"Algorithms\" " +
+            "WHERE \"id(PK)\" = ?";
 
-    private static String selectByName = "SELECT \"id_PK\", \"name\" " +
-            "FROM \"actor\" " +
-            "WHERE \"source_id\" = ?";
+    private static String selectByName = "SELECT \"id(PK)\", \"name\", \"accuracy\", \"learning_time\", \"linear\", \"params\", \"notes\", \"how_works\", \"how_uses\"  " +
+            "FROM \"Algorithms\" " +
+            "WHERE \"name\" = ?";
 
-    private static String insertQuery = "INSERT INTO \"actor\"(\"name\") " +
-            "VALUES (?, ?, ?, ?) " +
-            "RETURNING \"id_PK\", \"name\"";
+    private static String insertQuery = "INSERT INTO \"Algorithms\"(\"name\", \"accuracy\", \"learning_time\", \"linear\", \"params\", \"notes\", \"how_works\", \"how_uses\" ) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?) " +
+            "RETURNING \"id(PK)\", \"name\", \"accuracy\", \"learning_time\", \"linear\", \"params\", \"notes\", \"how_works\", \"how_uses\" ";
 
-    private static String updateQuery = "UPDATE \"actor\" " +
-            "SET \"name\" = ? " +
-            "WHERE \"id_PK\" = ? " +
-            "RETURNING \"id_PK\", \"name\"";
+    private static String updateQuery = "UPDATE \"Algorithms\" " +
+            "SET \"name\" = ?, \"accuracy\" = ?, \"learning_time\" = ?, \"linear\" = ?, \"params\" = ?, \"notes\" = ?, \"how_works\" = ?, \"how_uses\" = ? " +
+            "WHERE \"id(PK)\" = ? " +
+            "RETURNING \"id(PK)\", \"name\", \"accuracy\", \"learning_time\", \"linear\", \"params\", \"notes\", \"how_works\", \"how_uses\" ";
 
-    private static String deleteQuery = "DELETE FROM \"actor\" " +
-            "WHERE \"id_PK\" = ? " +
-            "RETURNING \"id_PK\", \"name\"";
+    private static String deleteQuery = "DELETE FROM \"Algorithms\" " +
+            "WHERE \"id(PK)\" = ? " +
+            "RETURNING \"id(PK)\", \"name\", \"accuracy\", \"learning_time\", \"linear\", \"params\", \"notes\", \"how_works\", \"how_uses\" ";
 
     public AlgorithmsRepository(JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
@@ -47,9 +48,16 @@ public class AlgorithmsRepository implements IRestRepository<Algorithms>{
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(selectQuery);
         while (rowSet.next()) {
             values.add(new Algorithms(
-                    rowSet.getInt(1),
-                    rowSet.getString(2)
-            ));
+                    UUID.fromString(rowSet.getString(1)),
+                    rowSet.getString(2),
+                    rowSet.getString(3),
+                    rowSet.getString(4),
+                    rowSet.getBoolean(5),
+                    rowSet.getInt(6),
+                    rowSet.getString(7),
+                    rowSet.getString(8),
+                    rowSet.getString(9)
+                    ));
         }
         Algorithms[] result = new Algorithms[values.size()];
         result = values.toArray(result);
@@ -65,8 +73,15 @@ public class AlgorithmsRepository implements IRestRepository<Algorithms>{
             return null;
         }
         return new Algorithms(
-                rowSet.getInt(1),
-                rowSet.getString(2)
+                UUID.fromString(rowSet.getString(1)),
+                rowSet.getString(2),
+                rowSet.getString(3),
+                rowSet.getString(4),
+                rowSet.getBoolean(5),
+                rowSet.getInt(6),
+                rowSet.getString(7),
+                rowSet.getString(8),
+                rowSet.getString(9)
         );
     }
 
@@ -77,8 +92,15 @@ public class AlgorithmsRepository implements IRestRepository<Algorithms>{
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(selectByName, params, types);
         while (rowSet.next()) {
             values.add(new Algorithms(
-                    rowSet.getInt(1),
-                    rowSet.getString(2)
+                    UUID.fromString(rowSet.getString(1)),
+                    rowSet.getString(2),
+                    rowSet.getString(3),
+                    rowSet.getString(4),
+                    rowSet.getBoolean(5),
+                    rowSet.getInt(6),
+                    rowSet.getString(7),
+                    rowSet.getString(8),
+                    rowSet.getString(9)
             ));
         }
         Algorithms[] result = new Algorithms[values.size()];
@@ -95,8 +117,15 @@ public class AlgorithmsRepository implements IRestRepository<Algorithms>{
             return null;
         }
         return new Algorithms(
-                rowSet.getInt(1),
-                rowSet.getString(2)
+                UUID.fromString(rowSet.getString(1)),
+                rowSet.getString(2),
+                rowSet.getString(3),
+                rowSet.getString(4),
+                rowSet.getBoolean(5),
+                rowSet.getInt(6),
+                rowSet.getString(7),
+                rowSet.getString(8),
+                rowSet.getString(9)
         );
     }
 
@@ -109,8 +138,15 @@ public class AlgorithmsRepository implements IRestRepository<Algorithms>{
             return null;
         }
         return new Algorithms(
-                rowSet.getInt(1),
-                rowSet.getString(2)
+                UUID.fromString(rowSet.getString(1)),
+                rowSet.getString(2),
+                rowSet.getString(3),
+                rowSet.getString(4),
+                rowSet.getBoolean(5),
+                rowSet.getInt(6),
+                rowSet.getString(7),
+                rowSet.getString(8),
+                rowSet.getString(9)
         );
     }
 
@@ -123,8 +159,15 @@ public class AlgorithmsRepository implements IRestRepository<Algorithms>{
             return null;
         }
         return new Algorithms(
-                rowSet.getInt(1),
-                rowSet.getString(2)
+                UUID.fromString(rowSet.getString(1)),
+                rowSet.getString(2),
+                rowSet.getString(3),
+                rowSet.getString(4),
+                rowSet.getBoolean(5),
+                rowSet.getInt(6),
+                rowSet.getString(7),
+                rowSet.getString(8),
+                rowSet.getString(9)
         );
     }
 }

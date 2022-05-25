@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/director")
+@RequestMapping(value = "/favourites")
 public class FavouritesController {
     private final FavouritesRepository directorRepository;
 

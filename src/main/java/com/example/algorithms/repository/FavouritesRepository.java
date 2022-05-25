@@ -7,35 +7,36 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Repository
 public class FavouritesRepository implements IRestRepository<Favourites> {
     protected final JdbcOperations jdbcOperations;
 
-    private static String selectQuery = "SELECT \"id_PK\", \"name\" " +
-            "FROM \"director\" " +
-            "ORDER BY \"id_PK\"";
+    private static String selectQuery = "SELECT \"user_id\", \"algorithm_id\" " +
+            "FROM \"Favourites\" " +
+            "ORDER BY \"user_id\"";
 
-    private static String selectByIdQuery = "SELECT \"id_PK\", \"name\" " +
-            "FROM \"director\" " +
-            "WHERE \"id_PK\" = ?";
+    private static String selectByIdQuery = "SELECT \"user_id\", \"algorithm_id\" " +
+            "FROM \"Favourites\" " +
+            "WHERE \"user_id\" = ?";
 
-    private static String selectByName = "SELECT \"id_PK\", \"name\" " +
-            "FROM \"director\" " +
-            "WHERE \"source_id\" = ?";
+    private static String selectByAlgorithm = "SELECT \"user_id\", \"algorithm_id\" " +
+            "FROM \"Favourites\" " +
+            "WHERE \"algorithms_id\" = ?";
 
-    private static String insertQuery = "INSERT INTO \"director\"(\"name\") " +
-            "VALUES (?, ?, ?, ?) " +
-            "RETURNING \"id_PK\", \"name\"";
+    private static String insertQuery = "INSERT INTO \"Favourites\" (\"user_id\", \"algorithm_id\") " +
+            "VALUES (?, ?) " +
+            "RETURNING \"user_id\", \"algorithm_id\" ";
 
-    private static String updateQuery = "UPDATE \"director\" " +
-            "SET \"name\" = ? " +
-            "WHERE \"id_PK\" = ? " +
-            "RETURNING \"id_PK\", \"name\"";
+    private static String updateQuery = "UPDATE \"Favourites\" " +
+            "SET \"user_id\" = ?, \"algorithm_id\" = ? " +
+            "WHERE \"user_id\" = ? " +
+            "RETURNING \"user_id\", \"algorithm_id\"";
 
-    private static String deleteQuery = "DELETE FROM \"director\" " +
-            "WHERE \"id_PK\" = ? " +
-            "RETURNING \"id_PK\", \"name\"";
+    private static String deleteQuery = "DELETE FROM \"Favourites\" " +
+            "WHERE \"user_id\" = ? " +
+            "RETURNING \"user_id\", \"algorithm_id\" ";
 
     public FavouritesRepository(JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
@@ -47,8 +48,8 @@ public class FavouritesRepository implements IRestRepository<Favourites> {
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(selectQuery);
         while (rowSet.next()) {
             values.add(new Favourites(
-                    rowSet.getInt(1),
-                    rowSet.getString(2)
+                UUID.fromString(rowSet.getString(1)),
+                UUID.fromString(rowSet.getString(2))
             ));
         }
         Favourites[] result = new Favourites[values.size()];
@@ -65,8 +66,8 @@ public class FavouritesRepository implements IRestRepository<Favourites> {
             return null;
         }
         return new Favourites(
-                rowSet.getInt(1),
-                rowSet.getString(2)
+            UUID.fromString(rowSet.getString(1)),
+            UUID.fromString(rowSet.getString(2))
         );
     }
 
@@ -74,11 +75,11 @@ public class FavouritesRepository implements IRestRepository<Favourites> {
         ArrayList<Favourites> values = new ArrayList<Favourites>();
         Object[] params = new Object[] { name };
         int[] types = new int[] { Types.INTEGER };
-        SqlRowSet rowSet = jdbcOperations.queryForRowSet(selectByName, params, types);
+        SqlRowSet rowSet = jdbcOperations.queryForRowSet(selectByAlgorithm, params, types);
         while (rowSet.next()) {
             values.add(new Favourites(
-                    rowSet.getInt(1),
-                    rowSet.getString(2)
+                UUID.fromString(rowSet.getString(1)),
+                UUID.fromString(rowSet.getString(2))
             ));
         }
         Favourites[] result = new Favourites[values.size()];
@@ -95,8 +96,8 @@ public class FavouritesRepository implements IRestRepository<Favourites> {
             return null;
         }
         return new Favourites(
-                rowSet.getInt(1),
-                rowSet.getString(2)
+            UUID.fromString(rowSet.getString(1)),
+            UUID.fromString(rowSet.getString(2))
         );
     }
 
@@ -109,8 +110,8 @@ public class FavouritesRepository implements IRestRepository<Favourites> {
             return null;
         }
         return new Favourites(
-                rowSet.getInt(1),
-                rowSet.getString(2)
+            UUID.fromString(rowSet.getString(1)),
+            UUID.fromString(rowSet.getString(2))
         );
     }
 
@@ -123,8 +124,8 @@ public class FavouritesRepository implements IRestRepository<Favourites> {
             return null;
         }
         return new Favourites(
-                rowSet.getInt(1),
-                rowSet.getString(2)
+            UUID.fromString(rowSet.getString(1)),
+            UUID.fromString(rowSet.getString(2))
         );
     }
 }

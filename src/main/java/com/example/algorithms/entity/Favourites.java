@@ -4,22 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Favourites extends BaseEntity {
-    private String name;
+    private UUID name;
 
-    public Favourites(Integer id, String name) {
+    public Favourites(UUID id, UUID name) {
         super(id);
         this.name = name;
     }
 
-    public String getName() {
+    public UUID getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(UUID name) {
         this.name = name;
     }
 }

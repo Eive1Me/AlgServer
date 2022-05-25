@@ -7,35 +7,36 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Repository
 public class UserRepository implements IRestRepository<User> {
     protected final JdbcOperations jdbcOperations;
 
-    private static String selectQuery = "SELECT \"id_PK\", \"genre\" " +
-            "FROM \"genre\" " +
-            "ORDER BY \"id_PK\"";
+    private static String selectQuery = "SELECT \"id(PK)\", \"login\", \"password\", \"favourites\", \"role\" " +
+            "FROM \"Users\" " +
+            "ORDER BY \"id(PK)\"";
 
-    private static String selectByIdQuery = "SELECT \"id_PK\", \"genre\" " +
-            "FROM \"genre\" " +
-            "WHERE \"id_PK\" = ?";
+    private static String selectByIdQuery = "SELECT \"id(PK)\", \"login\", \"password\", \"favourites\", \"role\" " +
+            "FROM \"Users\" " +
+            "WHERE \"id(PK)\" = ?";
 
-    private static String selectByName = "SELECT \"id_PK\", \"genre\" " +
-            "FROM \"genre\" " +
-            "WHERE \"genre\" = ?";
+    private static String selectByName = "SELECT \"id(PK)\", \"login\", \"password\", \"favourites\", \"role\" " +
+            "FROM \"Users\" " +
+            "WHERE \"login\" = ?";
 
-    private static String insertQuery = "INSERT INTO \"genre\"(\"genre\") " +
+    private static String insertQuery = "INSERT INTO \"Users\"(\"login\") " +
             "VALUES (?) " +
-            "RETURNING \"id_PK\", \"genre\"";
+            "RETURNING \"id(PK)\", \"login\", \"password\", \"favourites\", \"role\"";
 
-    private static String updateQuery = "UPDATE \"genre\" " +
-            "SET \"genre\" = ? " +
-            "WHERE \"id_PK\" = ? " +
-            "RETURNING \"id_PK\", \"genre\"";
+    private static String updateQuery = "UPDATE \"Users\" " +
+            "SET \"id(PK)\" = ?, \"login\" = ?, \"password\" = ?, \"favourites\" = ?, \"role\" = ? " +
+            "WHERE \"id(PK)\" = ? " +
+            "RETURNING \"id(PK)\", \"login\", \"password\", \"favourites\", \"role\"";
 
-    private static String deleteQuery = "DELETE FROM \"genre\" " +
-            "WHERE \"id_PK\" = ? " +
-            "RETURNING \"id_PK\", \"genre\"";
+    private static String deleteQuery = "DELETE FROM \"Users\" " +
+            "WHERE \"id(PK)\" = ? " +
+            "RETURNING \"id(PK)\", \"login\", \"password\", \"favourites\", \"role\"";
 
     public UserRepository(JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
@@ -47,8 +48,11 @@ public class UserRepository implements IRestRepository<User> {
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(selectQuery);
         while (rowSet.next()) {
             values.add(new User(
-                    rowSet.getInt(1),
-                    rowSet.getString(2)
+                UUID.fromString(rowSet.getString(1)),
+                rowSet.getString(2),
+                rowSet.getString(3),
+                UUID.fromString(rowSet.getString(4)),
+                rowSet.getString(5)
             ));
         }
         User[] result = new User[values.size()];
@@ -59,26 +63,32 @@ public class UserRepository implements IRestRepository<User> {
     @Override
     public User select(Integer id) {
         Object[] params = new Object[] { id };
-        int[] types = new int[] { Types.INTEGER };
+        int[] types = new int[] { Types.VARCHAR };
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(selectByIdQuery, params, types);
         if (!rowSet.next()) {
             return null;
         }
         return new User(
-                rowSet.getInt(1),
-                    rowSet.getString(2)
+            UUID.fromString(rowSet.getString(1)),
+            rowSet.getString(2),
+            rowSet.getString(3),
+            UUID.fromString(rowSet.getString(4)),
+            rowSet.getString(5)
         );
     }
 
     public User[] selectByName(Integer name) {
         ArrayList<User> values = new ArrayList<User>();
         Object[] params = new Object[] { name };
-        int[] types = new int[] { Types.INTEGER };
+        int[] types = new int[] { Types.VARCHAR };
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(selectByName, params, types);
         while (rowSet.next()) {
             values.add(new User(
-                    rowSet.getInt(1),
-                    rowSet.getString(2)
+                UUID.fromString(rowSet.getString(1)),
+                rowSet.getString(2),
+                rowSet.getString(3),
+                UUID.fromString(rowSet.getString(4)),
+                rowSet.getString(5)
             ));
         }
         User[] result = new User[values.size()];
@@ -88,43 +98,52 @@ public class UserRepository implements IRestRepository<User> {
 
     @Override
     public User insert(User entity) {
-        Object[] params = new Object[] { entity.getGenre() };
-        int[] types = new int[] { Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.TIMESTAMP };
+        Object[] params = new Object[] { entity.getLogin() };
+        int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR };
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(insertQuery, params, types);
         if (!rowSet.next()) {
             return null;
         }
         return new User(
-                rowSet.getInt(1),
-                    rowSet.getString(2)
+            UUID.fromString(rowSet.getString(1)),
+            rowSet.getString(2),
+            rowSet.getString(3),
+            UUID.fromString(rowSet.getString(4)),
+            rowSet.getString(5)
         );
     }
 
     @Override
     public User update(Integer id, User entity) {
-        Object[] params = new Object[] { id, entity.getGenre() };
-        int[] types = new int[] { Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.TIMESTAMP, Types.INTEGER };
+        Object[] params = new Object[] { id, entity.getLogin() };
+        int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR };
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(updateQuery, params, types);
         if (!rowSet.next()) {
             return null;
         }
         return new User(
-                rowSet.getInt(1),
-                    rowSet.getString(2)
+            UUID.fromString(rowSet.getString(1)),
+            rowSet.getString(2),
+            rowSet.getString(3),
+            UUID.fromString(rowSet.getString(4)),
+            rowSet.getString(5)
         );
     }
 
     @Override
     public User delete(Integer id) {
         Object[] params = new Object[] { id };
-        int[] types = new int[] {Types.INTEGER };
+        int[] types = new int[] {Types.VARCHAR };
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(deleteQuery, params, types);
         if (!rowSet.next()) {
             return null;
         }
         return new User(
-                rowSet.getInt(1),
-                    rowSet.getString(2)
+            UUID.fromString(rowSet.getString(1)),
+            rowSet.getString(2),
+            rowSet.getString(3),
+            UUID.fromString(rowSet.getString(4)),
+            rowSet.getString(5)
         );
     }
 }
