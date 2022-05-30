@@ -13,10 +13,12 @@ import java.util.UUID;
 public class FavouritesResource extends BaseResource {
     private UUID id;
     private UUID name;
+    private UUID us;
 
     public FavouritesResource(Favourites director) {
         this.id = director.getId();
         this.name = director.getName();
+        this.us = director.getUs();
     }
 
     public UUID getId() {
@@ -33,6 +35,14 @@ public class FavouritesResource extends BaseResource {
 
     public void setName(UUID name) {
         this.name = name;
+    }
+
+    public UUID getUs() {
+        return us;
+    }
+
+    public void setUs(UUID us) {
+        this.us = us;
     }
 
     public Favourites toEntity(){

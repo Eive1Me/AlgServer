@@ -13,30 +13,30 @@ import java.util.UUID;
 public class FavouritesRepository implements IRestRepository<Favourites> {
     protected final JdbcOperations jdbcOperations;
 
-    private static String selectQuery = "SELECT \"user_id\", \"algorithm_id\" " +
+    private static String selectQuery = "SELECT \"fav_id\", \"algorithm_id\",\"user_id\" " +
             "FROM \"Favourites\" " +
-            "ORDER BY \"user_id\"";
+            "ORDER BY \"fav_id\"";
 
-    private static String selectByIdQuery = "SELECT \"user_id\", \"algorithm_id\" " +
+    private static String selectByIdQuery = "SELECT \"fav_id\", \"algorithm_id\",\"user_id\"  " +
             "FROM \"Favourites\" " +
-            "WHERE \"user_id\" = ?";
+            "WHERE \"fav_id\" = ?";
 
-    private static String selectByAlgorithm = "SELECT \"user_id\", \"algorithm_id\" " +
+    private static String selectByAlgorithm = "SELECT \"fav_id\", \"algorithm_id\",\"user_id\"  " +
             "FROM \"Favourites\" " +
-            "WHERE \"algorithms_id\" = ?";
+            "WHERE \"algorithm_id\" = ?";
 
-    private static String insertQuery = "INSERT INTO \"Favourites\" (\"user_id\", \"algorithm_id\") " +
+    private static String insertQuery = "INSERT INTO \"Favourites\" (\"fav_id\", \"algorithm_id\",\"user_id\" ) " +
             "VALUES (?, ?) " +
-            "RETURNING \"user_id\", \"algorithm_id\" ";
+            "RETURNING \"fav_id\", \"algorithm_id\",\"user_id\"  ";
 
     private static String updateQuery = "UPDATE \"Favourites\" " +
-            "SET \"user_id\" = ?, \"algorithm_id\" = ? " +
-            "WHERE \"user_id\" = ? " +
-            "RETURNING \"user_id\", \"algorithm_id\"";
+            "SET \"fav_id\" = ?, \"algorithm_id\" = ?, \"user_id\" = ?" +
+            "WHERE \"fav_id\" = ? " +
+            "RETURNING \"fav_id\", \"algorithm_id\",\"user_id\" ";
 
     private static String deleteQuery = "DELETE FROM \"Favourites\" " +
-            "WHERE \"user_id\" = ? " +
-            "RETURNING \"user_id\", \"algorithm_id\" ";
+            "WHERE \"fav_id\" = ? " +
+            "RETURNING \"fav_id\", \"algorithm_id\",\"user_id\"  ";
 
     public FavouritesRepository(JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
@@ -49,7 +49,8 @@ public class FavouritesRepository implements IRestRepository<Favourites> {
         while (rowSet.next()) {
             values.add(new Favourites(
                 UUID.fromString(rowSet.getString(1)),
-                UUID.fromString(rowSet.getString(2))
+                UUID.fromString(rowSet.getString(2)),
+                UUID.fromString(rowSet.getString(3))
             ));
         }
         Favourites[] result = new Favourites[values.size()];
@@ -67,7 +68,8 @@ public class FavouritesRepository implements IRestRepository<Favourites> {
         }
         return new Favourites(
             UUID.fromString(rowSet.getString(1)),
-            UUID.fromString(rowSet.getString(2))
+            UUID.fromString(rowSet.getString(2)),
+            UUID.fromString(rowSet.getString(3))
         );
     }
 
@@ -79,7 +81,8 @@ public class FavouritesRepository implements IRestRepository<Favourites> {
         while (rowSet.next()) {
             values.add(new Favourites(
                 UUID.fromString(rowSet.getString(1)),
-                UUID.fromString(rowSet.getString(2))
+                UUID.fromString(rowSet.getString(2)),
+                UUID.fromString(rowSet.getString(3))
             ));
         }
         Favourites[] result = new Favourites[values.size()];
@@ -97,7 +100,8 @@ public class FavouritesRepository implements IRestRepository<Favourites> {
         }
         return new Favourites(
             UUID.fromString(rowSet.getString(1)),
-            UUID.fromString(rowSet.getString(2))
+            UUID.fromString(rowSet.getString(2)),
+            UUID.fromString(rowSet.getString(3))
         );
     }
 
@@ -111,7 +115,8 @@ public class FavouritesRepository implements IRestRepository<Favourites> {
         }
         return new Favourites(
             UUID.fromString(rowSet.getString(1)),
-            UUID.fromString(rowSet.getString(2))
+            UUID.fromString(rowSet.getString(2)),
+            UUID.fromString(rowSet.getString(3))
         );
     }
 
@@ -125,7 +130,8 @@ public class FavouritesRepository implements IRestRepository<Favourites> {
         }
         return new Favourites(
             UUID.fromString(rowSet.getString(1)),
-            UUID.fromString(rowSet.getString(2))
+            UUID.fromString(rowSet.getString(2)),
+            UUID.fromString(rowSet.getString(3))
         );
     }
 }
